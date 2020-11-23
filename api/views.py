@@ -5,6 +5,7 @@ from flask import (
     jsonify,
     render_template,
 )
+from middleware import model_predict
 
 
 router = Blueprint('app_name',
@@ -34,7 +35,13 @@ def index():
         # Luego con los resultados obtenidos, complete el diccionario
         # "context" para mostrar la predicción en el frontend.
         #################################################################
-        raise NotImplementedError
+        prediction, score = model_predict(text_data)
+        context = {
+            'text': text_data,
+            'prediction': prediction,
+            'score': score,
+            'success': True,
+        }
         #################################################################
 
     return render_template('index.html', context=context)
@@ -72,14 +79,21 @@ def predict():
 
     # Nos aseguramos que el método sea correcto y tengamos datos
     # para procesar
-    if request.method == 'POST' and request.args.get('text'):
+    text_data = request.args.get('text')
+
+    if request.method == 'POST' and text_data:
         #################################################################
         # COMPLETAR AQUI: Extraiga la sentencia a procesar y utilice la
         # función middleware.model_predict para obtener el sentimiento
         # de la misma. Complete los campos de "rpse" con los valores
         # obtenidos.
         #################################################################
-        raise NotImplementedError
+        prediction, score = model_predict(text_data)
+        rpse = {
+            'success': True,
+            'prediction': prediction,
+            'score': score,
+        }
         #################################################################
 
         return jsonify(rpse)
