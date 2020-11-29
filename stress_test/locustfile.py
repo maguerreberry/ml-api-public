@@ -5,11 +5,16 @@ class QuickstartUser(HttpUser):
 
     @task(1)
     def index(self):
-        raise NotInplementedError
+        self.client.get('/')
+
+    @task(2)
+    def predict(self):
+        self.client.post('/predict', params={'text':'bad'})
+        self.client.post('/predict', params={'text':'good'})
 
     @task(3)
-    def predict(self):
-        raise NotInplementedError
+    def fail(self):
+        self.client.post('/predict', params={})
 
     def on_start(self):
         pass
