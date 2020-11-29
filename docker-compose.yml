@@ -2,7 +2,6 @@ version: "3.2"
 services:
   api:
     image: flask_api
-    container_name: ml_api
     build:
       context: ./api
     command: "gunicorn --workers=8 --bind 0.0.0.0:5000 app:app"
@@ -27,7 +26,6 @@ services:
 
   model:
     image: ml_service
-    container_name: ml_service
     build:
       context: ./model
     command: "python3 /src/ml_service.py"
