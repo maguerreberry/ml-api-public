@@ -65,6 +65,10 @@ Se relizaron pruebas con 100, 1000 y 10000 usuarios. La api respondia bien en lo
 ![](images/stats_(1).png)
 ![](images/total_requests_per_second_1606139113_(1).png)
 
+En la siguiente imagen se puede ver los recursos de hardware asignados para el entorno de docker.
+
+![](images/hardware.png)
+
 ## 2. Monitoreo con *EKL*
 
 Aquí se puede ver una captura con los 3 paneles de grafana solicitados.
