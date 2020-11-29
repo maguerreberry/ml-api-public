@@ -53,3 +53,35 @@ El desafío propuesto es poder utilizar traefik y descubrir sus funcionalidades 
 - Una vez desplegados los dos servicios, generar réplicas para nuestro servicio whoami con el comando `docker-compose scale whoami=3` y acceder a http://my.own.whoami.localhost para verificar el balanceo de carga entre los distintos contenedores notando las diferentes IP's de contenedores que reciban nuestra petición.
 
 *AYUDA*: Aqui (https://docs.traefik.io/user-guides/docker-compose/basic-example/) encontrarán un ejemplo sencillo de uso de traefik incluso con la imagen containous/whoami.
+
+# Resolución
+
+## 1. Testing de stress con *Locust*
+
+Se relizaron pruebas con 100, 1000 y 10000 usuarios. La api respondia bien en los 2 primeros casos pero al llegar a 10000 usuarios podemos ver en los gráficos que el numero de errores aumenta, da la impresion que acepta más request por segundo, pero esto se debe a que casi todos estan fallando por que la api esta saturada.
+
+![](images/number_of_users_1606139113_(1).png)
+![](images/response_times_(ms)_1606139113_(1).png)
+![](images/stats_(1).png)
+![](images/total_requests_per_second_1606139113_(1).png)
+
+## 2. Monitoreo con *EKL*
+
+Aquí se puede ver una captura con los 3 paneles de grafana solicitados.
+
+![](images/grafana.png)
+
+
+## 3. Scaling de servicios
+
+Se configuro en locust un test de 100 usuarios para medir el RPS de la api modificando la cantidad de *workers* del servicio *model*.
+
+Para 1 solo worker obtuvimos un RPS de aproximadamente 4.4.
+
+![](images/stats1model_3.png)
+
+Para 1 solo worker obtuvimos un RPS de aproximadamente 2.1.
+
+![](images/stats2models_3.png)
+
+Se puede ver como mejora el tiempo de respuesta de nuestra api cuando se duplica la cantidad de container sirviendo *model*.
